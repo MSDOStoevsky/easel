@@ -19,22 +19,31 @@ include('../databaseconn.php')
         </head>
     </html>
     <body>
-        <nav class="navbar">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand">Easel</a>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="">Easel</a>
+                </div>
+                <!--<ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                </ul>-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
-              <li><a href="../logout.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-            </ul>
-          </div>
         </nav>
         <div class="container">
             <div class="things">
                 <h3>Welcome to your Easel</h3>
-                <h6>Here are your paints</h6>
             </div>
+            <ul class="list-group">
+                <a class="list-group-item">New <span class="badge">12</span></a>
+                <a class="list-group-item">Deleted <span class="badge">5</span></a>
+                <a class="list-group-item">Warnings <span class="badge">3</span></a>
+            </ul>
         </div>
         
         
