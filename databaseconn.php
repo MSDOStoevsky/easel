@@ -1,6 +1,6 @@
 <?php
 $servername = "localhost";
-$schema = "whiteboard";
+$schema = "easel";
 $username = "root";
 $password = "mysql";
 

@@ -1,10 +1,29 @@
 body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #eee;
+    background-color: #F6f6f6;
 }
 .form-signin {
     max-width: 330px;
     padding: 15px;
     margin: 0 auto;
+}
+.things {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    text-align: center;
+}
+.navbar{
+    background-color: #FFC107;
+    color: #212121;
+}
+.navbar-brand {
+    color: #212121;
+}
+.glyphicon {
+     color: #757575;
+}
+a {
+    color: #757575;
 }
