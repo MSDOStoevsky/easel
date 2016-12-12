@@ -1,5 +1,7 @@
 CREATE DATABASE `easel` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
+USE `easel`;
+
 CREATE TABLE `exam` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -14,7 +16,7 @@ CREATE TABLE `question` (
   `exam_id` int(11) NOT NULL,
   `text` blob NOT NULL,
   `choices` json NOT NULL,
-  `correct` char(1) NOT NULL DEFAULT 'C',
+  `answer` char(1) NOT NULL DEFAULT 'C',
   `points` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`exam_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -46,5 +48,33 @@ BEGIN
     ELSE
 		ROLLBACK;
     END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CREATE_QUESTION`(IN MY_EXAM INT(11), IN Q_NUM INT(11), IN MY_TEXT BLOB, IN MY_CHOICES JSON,
+IN MY_ANSWER CHAR(1), IN MY_POINTS INT(11))
+BEGIN
+	START TRANSACTION;
+    
+    IF (SELECT COUNT(*) FROM `question` WHERE `exam_id` = MY_EXAM AND `id` = Q_NUM) THEN
+		INSERT INTO `easel`.`question`
+		(`id`,
+		`exam_id`,
+		`text`,
+		`choices`,
+		`answer`,
+		`points`)
+		VALUES
+		(Q_NUM,
+		MY_EXAM,
+		MY_TEXT,
+		MY_CHOICES,
+		MY_ANSWER,
+		MY_POINTS);
+		COMMIT;
+	ELSE
+		ROLLBACK;
+	END IF;
 END$$
 DELIMITER ;
