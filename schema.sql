@@ -13,18 +13,10 @@ CREATE TABLE `question` (
   `id` int(11) NOT NULL,
   `exam_id` int(11) NOT NULL,
   `text` blob NOT NULL,
-  `choices` int(11) NOT NULL DEFAULT '1',
+  `choices` json NOT NULL,
   `correct` char(1) NOT NULL DEFAULT 'C',
   `points` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`exam_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `choices` (
-  `exam_id` int(11) NOT NULL,
-  `q_id` int(11) NOT NULL,
-  `choice_id` char(1) NOT NULL,
-  `text` blob NOT NULL,
-  PRIMARY KEY (`exam_id`,`q_id`,`choice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `student` (
