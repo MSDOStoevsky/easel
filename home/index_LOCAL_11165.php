@@ -1,6 +1,5 @@
 <?php
 include('../databaseconn.php');
-
 $sql = "SELECT `exam`.`id`,
     `exam`.`name`,
     `exam`.`created`,

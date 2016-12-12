@@ -1,6 +1,9 @@
 <?php
 include('../databaseconn.php');
+<<<<<<< HEAD
+=======
 
+>>>>>>> f101c7955e7db23a286989315ec5b2fcd8b83f0d
 $sql = "SELECT `exam`.`id`,
     `exam`.`name`,
     `exam`.`created`,

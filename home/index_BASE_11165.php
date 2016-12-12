@@ -1,13 +1,5 @@
 <?php
 include('../databaseconn.php');
-
-$sql = "SELECT `exam`.`id`,
-    `exam`.`name`,
-    `exam`.`created`,
-    `exam`.`total_points`
-FROM `easel`.`exam`;
-";
-$result = $conn->query($sql);
       
 ?>
 <!DOCTYPE html>
@@ -62,16 +54,7 @@ $result = $conn->query($sql);
                 <h3>Upcoming tests</h3>
             </div>
             <ul class="list-group">
-                <?php                 
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while($row = $result->fetch_assoc()) {
-                           echo '<a class="list-group-item" href="test.php?exam=' . $row["id"]. '"> ' . $row["name"]. ' <span class="badge">' . $row["total_points"]. '</span></a>';
-                        }
-                    } else {
-                        echo "<b>No tests yet! Whoo!</b>";
-                    }
-                ?>
+                <a class="list-group-item">New <span class="badge">Due time</span></a>
             </ul>
             <hr>
             <div class="things">
