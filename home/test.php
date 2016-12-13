@@ -8,18 +8,8 @@ $sql = "SELECT `question`.`id`,
     `question`.`answer`,
     `question`.`points`
 FROM `easel`.`question`
- where exam_id = ". $_GET['exam'];
+WHERE exam_id = ". $_GET['exam']." ORDER BY `id` ASC";
 $result = $conn->query($sql);
-
- if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-       print_r($row["text"]);
-        echo "<br>";
-    }
-} else {
-    echo "<b>No tests yet! Whoo!</b>";
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,11 +28,11 @@ $result = $conn->query($sql);
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="">Easel</a>
+                    <a class="navbar-brand" href="index.php">Easel</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a data-toggle="modal" data-target="#viewprofile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    <li><a data-toggle="modal" data-target="#viewprofile"><span class="glyphicon glyphicon-user"></span>My Profile</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
                 </ul>
             </div>
             <!-- Modal -->
@@ -68,7 +58,29 @@ $result = $conn->query($sql);
             </div>
 			<!--/modal-->
         </nav>
-        
+        <div class="container">
+            <?php
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    $obj = json_decode($row["choices"]);
+                    echo '<div class="form-group">';
+                    echo '<label for="">'.$row["text"].'</label>';
+                    echo '<ul class="list-group">';
+                    foreach($obj as $key=>$val){
+                        echo '<div class="radio">';
+                        echo '<label><input type="radio" value="" name="'.$row["id"].'">'.$val.'</label>';
+                        echo '</div>';
+                    }
+                    echo '</ul>';
+                    echo '</div>';
+                    echo "<hr>";
+                }
+            } else {
+                echo "<b>No questions...</b>";
+            }
+            ?>
+        </div>
         <script type="text/javascript" src="../assets/js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
     </body>

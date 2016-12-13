@@ -8,7 +8,6 @@ $sql = "SELECT `exam`.`id`,
 FROM `easel`.`exam`;
 ";
 $result = $conn->query($sql);
-      
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,8 +29,8 @@ $result = $conn->query($sql);
                     <a class="navbar-brand" href="">Easel</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a data-toggle="modal" data-target="#viewprofile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    <li><a data-toggle="modal" data-target="#viewprofile"><span class="glyphicon glyphicon-user"></span>My Profile</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
                 </ul>
             </div>
             <!-- Modal -->
@@ -66,7 +65,7 @@ $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         // output data of each row
                         while($row = $result->fetch_assoc()) {
-                           echo '<a class="list-group-item" href="test.php?exam=' . $row["id"]. '"> ' . $row["name"]. ' <span class="badge">' . $row["total_points"]. '</span></a>';
+                           echo '<a class="list-group-item" href="test.php?exam='.$row["id"].'">' . $row["name"]. '<span class="badge">'.$row["total_points"].'</span></a>';
                         }
                     } else {
                         echo "<b>No tests yet! Whoo!</b>";
