@@ -62,6 +62,7 @@ $result = $conn->query($sql);
             <?php
             if ($result->num_rows > 0) {
                 // output data of each row
+                echo '<form action="grade.php" method="POST">';
                 while($row = $result->fetch_assoc()) {
                     $obj = json_decode($row["choices"]);
                     echo '<div class="form-group">';
@@ -76,6 +77,8 @@ $result = $conn->query($sql);
                     echo '</div>';
                     echo "<hr>";
                 }
+                echo '<input type="submit" class="btn btn-default btn-lg" value="Submit">';
+                echo '</form>';
             } else {
                 echo "<b>No questions...</b>";
             }
