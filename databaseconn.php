@@ -2,7 +2,7 @@
 $servername = "localhost";
 $schema = "easel";
 $username = "root";
-$password = "20004132Bds";
+$password = "mysql";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $schema);

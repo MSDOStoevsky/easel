@@ -1,6 +1,13 @@
 <?php
 include('../databaseconn.php');
 
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+$param = test_input($_GET['exam']);
 $sql = "SELECT `question`.`id`,
     `question`.`exam_id`,
     `question`.`text`,
@@ -8,13 +15,13 @@ $sql = "SELECT `question`.`id`,
     `question`.`answer`,
     `question`.`points`
 FROM `easel`.`question`
-WHERE exam_id = ". $_GET['exam']." ORDER BY `id` ASC";
+WHERE exam_id = ".$param." ORDER BY `id` ASC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Exam</title>
+        <title>Take Your Test</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="description" content="The Fair-Use Test Taking Site" />
@@ -70,13 +77,14 @@ $result = $conn->query($sql);
                     echo '<ul class="list-group">';
                     foreach($obj as $key=>$val){
                         echo '<div class="radio">';
-                        echo '<label><input type="radio" value="" name="'.$row["id"].'">'.$val.'</label>';
+                        echo '<label><input type="radio" value="'.$key.'" name="'.$row["id"].'">'.$val.'</label>';
                         echo '</div>';
                     }
                     echo '</ul>';
                     echo '</div>';
                     echo "<hr>";
                 }
+                echo '<input type="hidden" name="exam" value="'.$param.'">';
                 echo '<input type="submit" class="btn btn-default btn-lg" value="Submit">';
                 echo '</form>';
             } else {

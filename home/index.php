@@ -1,13 +1,25 @@
 <?php
 include('../databaseconn.php');
 
-$sql = "SELECT `exam`.`id`,
-    `exam`.`name`,
-    `exam`.`created`,
-    `exam`.`total_points`
-FROM `easel`.`exam`;
-";
-$result = $conn->query($sql);
+$sql = "SELECT e.`id`,
+    e.`name`,
+    e.`created`,
+    e.`total_points`,
+    r.`score`
+    FROM `easel`.`exam` e
+    LEFT JOIN `easel`.`results` r ON e.`id` = r.`exam_id`
+    WHERE ISNULL(`score`)";
+$result_one = $conn->query($sql);
+
+$sql = "SELECT e.`id`,
+    e.`name`,
+    e.`created`,
+    e.`total_points`,
+    r.`score`
+    FROM `easel`.`exam` e
+    LEFT JOIN `easel`.`results` r ON e.`id` = r.`exam_id`
+    WHERE NOT ISNULL(`score`)";
+$result_two = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,14 +74,14 @@ $result = $conn->query($sql);
             </div>
             <ul class="list-group">
                 <?php                 
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while($row = $result->fetch_assoc()) {
-                           echo '<a class="list-group-item" href="test.php?exam='.$row["id"].'">' . $row["name"]. '<span class="badge">'.$row["total_points"].'</span></a>';
-                        }
-                    } else {
-                        echo "<b>No tests yet! Whoo!</b>";
+                if ($result_one->num_rows > 0) {
+                    // output data of each row
+                    while($row = $result_one->fetch_assoc()) {
+                        echo '<a class="list-group-item" href="test.php?exam='.$row["id"].'">'.$row["name"]. '</a>';
                     }
+                } else {
+                    echo "<b>No new tests!</b>";
+                }
                 ?>
             </ul>
             <hr>
@@ -77,7 +89,16 @@ $result = $conn->query($sql);
                 <h3>Previous tests</h3>
             </div>
             <ul class="list-group">
-                <a class="list-group-item">Old <span class="badge">12</span></a>
+                <?php                 
+                if ($result_two->num_rows > 0) {
+                    // output data of each row
+                    while($row = $result_two->fetch_assoc()) {
+                        echo '<a class="list-group-item" href="test.php?exam='.$row["id"].'">'.$row["name"].'<span class="badge">'.$row["score"].'</span></a>';
+                    }
+                } else {
+                    echo "<b>You have no tests completed.</b>";
+                }
+                ?>
             </ul>
         </div>
         

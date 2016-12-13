@@ -1,2 +1,2 @@
 # easel
-Final project for databases
+Final project for CS3425
