@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('../databaseconn.php');
 
 $total_score = 0;
@@ -6,7 +7,7 @@ $total_score = 0;
 // define variables and set to empty values
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $answers = json_encode($_POST);
-    $student = 1;
+    $student = $_SESSION["id"];
     $param = $_POST["exam"];
 }
 $sql = "SELECT `question`.`id`,

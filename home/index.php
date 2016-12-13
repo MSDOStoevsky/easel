@@ -1,6 +1,6 @@
 <?php
+session_start();
 include('../databaseconn.php');
-
 $sql = "SELECT e.`id`,
     e.`name`,
     e.`created`,
@@ -18,7 +18,7 @@ $sql = "SELECT e.`id`,
     r.`score`
     FROM `easel`.`exam` e
     LEFT JOIN `easel`.`results` r ON e.`id` = r.`exam_id`
-    WHERE NOT ISNULL(`score`)";
+    WHERE NOT ISNULL(`score`) AND r.`s_id` = ".$_SESSION["sid"];
 $result_two = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -41,32 +41,9 @@ $result_two = $conn->query($sql);
                     <a class="navbar-brand" href="">Easel</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a data-toggle="modal" data-target="#viewprofile"><span class="glyphicon glyphicon-user"></span>My Profile</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+                    <li><a href="../logout.php"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
                 </ul>
             </div>
-            <!-- Modal -->
-            <div class="modal fade" id="viewprofile" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Your Profile</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form role="form" method="POST" action="createthread.php">
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" class="form-control input-lg" id="username" name="username" maxlength="45">
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<!--/modal-->
         </nav>
         <div class="container">
             <div class="things">
@@ -93,7 +70,7 @@ $result_two = $conn->query($sql);
                 if ($result_two->num_rows > 0) {
                     // output data of each row
                     while($row = $result_two->fetch_assoc()) {
-                        echo '<a class="list-group-item" href="test.php?exam='.$row["id"].'">'.$row["name"].'<span class="badge">'.$row["score"].'</span></a>';
+                        echo '<a class="list-group-item" href="result.php?exam='.$row["id"].'">'.$row["name"].'<span class="badge">'.$row["score"].'</span></a>';
                     }
                 } else {
                     echo "<b>You have no tests completed.</b>";

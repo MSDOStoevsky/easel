@@ -9,7 +9,7 @@ CREATE TABLE `exam` (
   `total_points` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `question` (
   `id` int(11) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `results` (
   `answers` json NOT NULL,
   `score` int(11) NOT NULL,
   PRIMARY KEY (`id`,`s_id`,`exam_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 
 DELIMITER $$
@@ -67,7 +67,9 @@ IN MY_ANSWER CHAR(1), IN MY_POINTS INT(11))
 BEGIN
 	START TRANSACTION;
     
-    IF (SELECT COUNT(*) FROM `question` WHERE `exam_id` = MY_EXAM AND `id` = Q_NUM) THEN
+    IF (SELECT COUNT(*) FROM `question` WHERE `exam_id` = MY_EXAM AND `id` = Q_NUM) > 0 THEN
+		ROLLBACK;
+	ELSE
 		INSERT INTO `easel`.`question`
 		(`id`,
 		`exam_id`,
@@ -83,8 +85,53 @@ BEGIN
 		MY_ANSWER,
 		MY_POINTS);
 		COMMIT;
+	END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CREATE_STUDENT`(IN MY_ID INT(11), IN MY_NAME VARCHAR(45), IN MY_MAJOR VARCHAR(45), IN MY_EMAIL VARCHAR(255), IN MY_PASSWORD VARCHAR(255))
+BEGIN
+	START TRANSACTION;
+    IF (SELECT COUNT(*) FROM `student` WHERE `student`.`id` = MY_ID) = 0 THEN
+		INSERT INTO `easel`.`student`
+		(`id`,
+		`name`,
+		`major`,
+		`email`,
+		`password`)
+		VALUES
+		(MY_ID,
+		MY_NAME,
+		MY_MAJOR,
+		MY_EMAIL,
+		(SELECT SHA1(MY_PASSWORD)));
+		COMMIT;
 	ELSE
 		ROLLBACK;
+	END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GRADE_STUDENT`(IN MY_SID INT(11), IN MY_EID INT(11), IN MY_ANSWERS JSON, IN MY_SCORE INT(11))
+BEGIN
+	START TRANSACTION;
+    
+    IF (SELECT COUNT(*) FROM `results` WHERE `exam_id` = MY_EID AND `s_id` = MY_SID) > 0 THEN
+		ROLLBACK;
+	ELSE
+		INSERT INTO `easel`.`results`
+		(`s_id`,
+		`exam_id`,
+		`answers`,
+		`score`)
+		VALUES
+		(MY_SID,
+		MY_EID,
+		MY_ANSWERS,
+		MY_SCORE);
+		COMMIT;
 	END IF;
 END$$
 DELIMITER ;
