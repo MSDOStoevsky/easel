@@ -23,13 +23,23 @@ CREATE TABLE `question` (
 
 CREATE TABLE `student` (
   `id` int(11) NOT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
   `major` varchar(45) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `results` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `s_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `answers` json NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`s_id`,`exam_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
 
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CREATE_EXAM`(IN MY_NAME VARCHAR(255), IN MY_POINTS INT(11))
