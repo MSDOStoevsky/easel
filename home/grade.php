@@ -7,7 +7,7 @@ $total_score = 0;
 // define variables and set to empty values
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $answers = json_encode($_POST);
-    $student = $_SESSION["id"];
+    $student = $_SESSION["sid"];
     $param = $_POST["exam"];
 }
 $sql = "SELECT `question`.`id`,
@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
     echo "<b>Unable to grade</b>";
 }
 // prepare and bind
-$stmt = $conn->prepare("CALL `GRADE_STUDENT`(?, ?, ?, ?);");
+$stmt = $conn->prepare("CALL `GRADE_STUDENT`(?, ?, ?, ?)");
 $stmt->bind_param("iisi", $student, $param, $answers, $total_score);
 $stmt->execute();
 header("Location: index.php");
